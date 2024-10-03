@@ -1,7 +1,7 @@
 package com.java.entity;
 
 public enum RoleEnum {
-    ROLE_USER,
-    ROLE_MODERATOR,
+    ROLE_EMP,
+    ROLE_MANAGER,
     ROLE_ADMIN
 }
