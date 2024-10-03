@@ -17,6 +17,7 @@ public class TaskService {
 	public List<Task> getAllTasks() {
 		List<Task> tasks = new ArrayList<Task>();
 		taskRepository.findAll().forEach(task -> tasks.add(task));
+		
 		return tasks;
 
 	}

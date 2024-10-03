@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import com.java.entity.Task;
@@ -32,7 +32,7 @@ public class TaskController {
 	
 	// to get task by id
 	@GetMapping("/getTasks/{id}")
-	public Task getTaskById(@PathVariable("id") long id){
+	public Task getTaskById(@PathVariable long id){
 		return taskService.getTaskById(id);
 	}
 
@@ -42,12 +42,6 @@ public class TaskController {
 	public void createOrUpdateTask(@RequestBody Task task) {
 		taskService.createOrUpdateTask(task);
 	}
-	
-	
-	
-	
-	
-	
 	
 	
 	@PatchMapping("/update/{id}")
@@ -74,7 +68,7 @@ public class TaskController {
 	
 //Delete task based on Id
 	@DeleteMapping("getTasks/{id}")
-	public void deleteTaskById(long id) {
+	public void deleteTaskById(@PathVariable long id) {
 		taskService.deleteTaskById(id);
 	}
 	
