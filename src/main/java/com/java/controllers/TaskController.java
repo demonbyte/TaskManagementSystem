@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.java.entity.Task;
 import com.java.services.TaskService;
-
+@RequestMapping("/api/tasks")
 @RestController
 public class TaskController {
 	
@@ -29,6 +29,7 @@ public class TaskController {
 	public List<Task> getAllTasks(){
 		return taskService.getAllTasks();
 	}
+	
 	
 	// to get task by id
 	@GetMapping("/getTasks/{id}")

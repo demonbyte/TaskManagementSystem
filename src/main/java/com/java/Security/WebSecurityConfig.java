@@ -25,9 +25,7 @@ import com.java.services.WebToken.AuthenticationEntryPt;
 
 import jakarta.servlet.Filter;
 
-//@Configuration
-//@EnableMethodSecurity
-////public class WebSecurityConfig {
+
 
 @Configuration
 public class WebSecurityConfig{	
@@ -55,11 +53,7 @@ public class WebSecurityConfig{
     }
 
 
-//    @Bean
-//    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-//        return authConfig.getAuthenticationManager();
-//    }
-    
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
@@ -86,11 +80,11 @@ public class WebSecurityConfig{
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/api/test/**").permitAll()
+                                .requestMatchers("/api/tasks/**").permitAll()
                                 .anyRequest().authenticated()
                 );
 
-        http.authenticationProvider(authenticationProvider());
-
+       http.authenticationProvider(authenticationProvider());
         http.addFilterBefore((Filter) authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

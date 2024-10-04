@@ -67,7 +67,7 @@ public class AuthenticationController {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                .body(new UserResponse(userDetails.getId(),
+                .body(new UserResponse(/*userDetails.getId(),*/
                         userDetails.getUsername(),
                         userDetails.getEmail(),
                         roles));
@@ -75,6 +75,7 @@ public class AuthenticationController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUp signUpRequest) {
+    	System.out.println("signup***************************"+signUpRequest.getEmail()+""+signUpRequest.getUsername()+""+signUpRequest.getPassword()+""+signUpRequest.getRole());
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity.badRequest().body(new MessageDataResp("Error: Username is already taken!"));
         }
@@ -90,21 +91,23 @@ public class AuthenticationController {
 
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
-
+        
+        System.out.println("strroles***************************"+strRoles);
         if (strRoles == null) {
             Role userRole = roleRepository.findByName(RoleEnum.ROLE_EMP)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
         } else {
+        	System.out.println("randm***************************");
             strRoles.forEach(role -> {
                 switch (role) {
-                    case "admin":
+                   case "admin":
                         Role adminRole = roleRepository.findByName(RoleEnum.ROLE_ADMIN)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(adminRole);
 
                         break;
-                    case "mod":
+                    case "manager":
                         Role modRole = roleRepository.findByName(RoleEnum.ROLE_MANAGER)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(modRole);
@@ -114,8 +117,12 @@ public class AuthenticationController {
                         Role userRole = roleRepository.findByName(RoleEnum.ROLE_EMP)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(userRole);
+                        
+                       
                 }
             });
+            
+            System.out.println("***************************for loop end");
         }
 
         user.setRoles(roles);
