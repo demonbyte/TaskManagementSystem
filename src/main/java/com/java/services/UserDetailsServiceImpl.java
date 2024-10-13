@@ -19,9 +19,41 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
+       User user = userRepository.findByUsername(username);
+              
+    	if (user == null) {
+            throw new UsernameNotFoundException("User Not Found with username: " + username);
+        }
 
         return UserDetailsImpl.build(user);
     }
+    
+    //Get list of all users
+    
+	public Iterable<User> getAllUsers() {
+		return userRepository.findAll();
+	}
+	//*****************************************************************************
+    
+	// New method to assign a manager to an employee
+    public void assignManager(String employee_name, String manager_name) {
+        // Fetch employee and manager from the repository
+        User employee = userRepository.findByUsername(employee_name);
+                
+       
+         if (employee == null) {
+             throw new RuntimeException("Employee not found");
+         }
+        
+        User manager = userRepository.findByUsername(manager_name);
+//                .orElseThrow(() -> new RuntimeException("Manager not found"));
+
+        // Set the manager for the employee
+        employee.setManager(manager);
+
+        // Save the employee with the new manager
+        userRepository.save(employee);
+    }
+	
+	
 }

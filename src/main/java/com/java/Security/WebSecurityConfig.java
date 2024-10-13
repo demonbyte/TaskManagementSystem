@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,6 +20,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+
 import com.java.services.UserDetailsServiceImpl;
 import com.java.services.WebToken.AuthTokenFilter;
 import com.java.services.WebToken.AuthenticationEntryPt;
@@ -28,6 +30,7 @@ import jakarta.servlet.Filter;
 
 
 @Configuration
+@EnableMethodSecurity(prePostEnabled = true) // Enable method-level security
 public class WebSecurityConfig{	
 
 	
@@ -79,8 +82,10 @@ public class WebSecurityConfig{
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/api/test/**").permitAll()
-                                .requestMatchers("/api/tasks/**").permitAll()
+                                .requestMatchers("api/tasks/admin-mangr/**").hasAnyRole("ADMIN" , "MANAGER")
+                                .requestMatchers("api/tasks/mangr/**").hasRole("MANAGER")
+                                .requestMatchers("api/tasks/usr/**").hasRole("EMP")
+                               // .requestMatchers("api/tasks/assign-manager").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 );
 

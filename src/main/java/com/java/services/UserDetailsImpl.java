@@ -3,12 +3,14 @@ package com.java.services;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.java.entity.User;
+import com.java.repositories.UserRepository;
 
 public class UserDetailsImpl implements UserDetails {
     private static final long serialVersionUID = 1L;
@@ -23,6 +25,9 @@ public class UserDetailsImpl implements UserDetails {
     private String password;
 
     private Collection<? extends GrantedAuthority> authorities;
+    
+    @Autowired
+    private UserRepository userRepository;
 
     public UserDetailsImpl(/*Integer id,*/ String username, String email, String password,
                            Collection<? extends GrantedAuthority> authorities) {
@@ -39,6 +44,8 @@ public class UserDetailsImpl implements UserDetails {
         List<GrantedAuthority> authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toList());
+        
+        
 
         return new UserDetailsImpl(
 //                user.getId(),
@@ -100,4 +107,6 @@ public class UserDetailsImpl implements UserDetails {
         UserDetailsImpl user = (UserDetailsImpl) o;
         return Objects.equals(username, user.username);
     }
+    
+    
 }

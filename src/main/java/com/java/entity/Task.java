@@ -2,6 +2,9 @@
 package com.java.entity;
 
 import java.time.LocalDate;
+import java.util.Optional;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -49,9 +52,11 @@ public class Task {
     private String status;
 
     private String assignee;
+    
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
     private User user; 
 
 

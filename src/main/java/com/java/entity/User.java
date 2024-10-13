@@ -100,6 +100,9 @@ import jakarta.validation.constraints.*;
 
 import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -124,10 +127,11 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Task> tasks; 
 
-    
-    @ManyToMany(fetch = FetchType.LAZY)
+    // Eager as we want to get the roles when we get the user.
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "username"), 
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -142,6 +146,30 @@ public class User {
         this.password = password;
     }
     
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_id")
+    private User manager;  // Manager of this user
+
+    @OneToMany(mappedBy = "manager", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<User> employees = new HashSet<>();  // Employees under this manager
+
+    // Other fields and getters/setters
+
+    public User getManager() {
+        return manager;
+    }
+
+    public void setManager(User manager) {
+        this.manager = manager;
+    }
+
+    public Set<User> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Set<User> employees) {
+        this.employees = employees;
+    }
     
     // Getters and setters
 

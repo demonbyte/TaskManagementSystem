@@ -59,4 +59,9 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         String jwt = jwtUtils.getJwtFromCookies(request);
         return jwt;
     }
+    
+//    @Override
+//	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+//		return request.getServletPath().equals("/api/auth/signin") || request.getServletPath().equals("/api/auth/signup");
+//	}
 }

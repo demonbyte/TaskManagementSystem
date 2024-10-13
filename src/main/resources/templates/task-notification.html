@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Notification</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <p>Dear <span th:text="${user.username}">User</span>,</p>
+    <p>We would like to inform you about a task that has been created or updated. Below are the details:</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Field</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ID</td>
+                <td th:text="${task.id}">1</td>
+            </tr>
+            <tr>
+                <td>Assignee</td>
+                <td th:text="${task.assignee}">Dustin</td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td th:text="${task.description}">abc environment</td>
+            </tr>
+            <tr>
+                <td>Due Date</td>
+                <td th:text="${task.dueDate}">2024-10-18</td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td th:text="${task.status}">In Progress</td>
+            </tr>
+            <tr>
+                <td>Title</td>
+                <td th:text="${task.title}">abc</td>
+            </tr>
+            <tr>
+                <td>User ID</td>
+                <td th:text="${task.user.id}">3</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>If you have any questions or need further information, please feel free to reach out.</p>
+    <p>Best regards,<br>[Your Name]<br>[Your Position]<br>[Your Company]</p>
+</body>
+</html>
