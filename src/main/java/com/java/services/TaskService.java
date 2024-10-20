@@ -72,7 +72,7 @@ public class TaskService {
 //    }
 	
 	// Create new task
-	public void createOrUpdateTask(Task task, String username) {
+	public void createOrUpdateTask(Task task, String username, String action) {
 		User user = userRepository.findByUsername(username);
 	    
 	    if (user== null) {
@@ -86,7 +86,7 @@ public class TaskService {
 
 		taskRepository.save(task);
 		
-		emailService.sendTaskNotificationEmail(user, task);
+		emailService.sendTaskNotificationEmail(user, task, action);
 	}
 	
 
@@ -127,4 +127,8 @@ public class TaskService {
         List<Task> tasks = taskRepository.findAll();
         return tasks.stream().filter(task -> task.getStatus().equals("PENDING")).collect(Collectors.toList());
     }
+	
+	public List<Task> getTasksByUserId(Long userId) {
+	    return taskRepository.findByUserId(userId);
+	}
 }

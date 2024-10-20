@@ -31,8 +31,9 @@ public class ScheduleService {
 	
 	
 	   // Run every day at 8 AM
-//    @Scheduled(cron = "0 0 8 * * ?")
-	//@Scheduled(cron = "0 * * * * ?")
+    @Scheduled(cron = "0 0 8 * * ?") // 8 am
+//	@Scheduled(cron = "0 * * * * ?") 1min
+//	@Scheduled(cron = "0 */5 * * * ?") 5 min
     public void sendDailySummaryEmails() {
         List<User> allUsers;
 		try {

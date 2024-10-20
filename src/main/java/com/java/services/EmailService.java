@@ -41,13 +41,14 @@ public class EmailService {
 
     
     //when a task is createed or updated send email to emp/manager
-    public void sendTaskNotificationEmail(User user, Task task) {
-        String subject = "Task Updated: " + task.getTitle();
+    public void sendTaskNotificationEmail(User user, Task task, String action) {
+        String subject = action + ": " + task.getTitle();
         
         // Prepare the Thymeleaf context
         Context context = new Context();
         context.setVariable("user", user);
         context.setVariable("task", task);
+        context.setVariable("action", action);
         
         // Render the template to a string
         String body = templateEngine.process("task-notification", context);

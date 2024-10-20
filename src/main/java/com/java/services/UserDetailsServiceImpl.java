@@ -7,6 +7,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.java.entity.User;
+import com.java.entity.UserManager;
+import com.java.repositories.UserManagerRepository;
 import com.java.repositories.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -15,6 +17,9 @@ import jakarta.transaction.Transactional;
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
+    
+    @Autowired
+    UserManagerRepository userManagerRepository;
 
     @Override
     @Transactional
@@ -49,10 +54,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 //                .orElseThrow(() -> new RuntimeException("Manager not found"));
 
         // Set the manager for the employee
-        employee.setManager(manager);
+//        employee.setManager(manager);
 
         // Save the employee with the new manager
-        userRepository.save(employee);
+//        userRepository.save(employee);
+        
+        
+	    UserManager userManager = new UserManager();
+	    userManager.setUser(employee);
+	    userManager.setManager(manager);
+	    
+	    userManagerRepository.save(userManager);
+        
+        
+        
     }
 	
 	
